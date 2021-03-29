@@ -1,13 +1,20 @@
-import React from 'react'
 
+import React ,{useContext} from 'react'
 import { ScrollView,StyleSheet,View ,Text} from 'react-native'
 
 import { Button,TextInput} from 'react-native-paper'
+import AuthContext from '../store/contexts/AuthContext'
 
 const SignupScreen = props => {
     const [email,setEmail] = React.useState('')
     const [password,setPassword]= React.useState('')
     const [fullName,setFullName] = React.useState('')
+    const authContext = useContext(AuthContext)
+
+    const handleSignUp = () => {
+        authContext.signUpUserWithFirebase({ email ,password, fullName})
+        props.navigation.navigate('Login')
+    }
 
     return <ScrollView style={styles.screen}>
         <TextInput
@@ -31,7 +38,9 @@ const SignupScreen = props => {
             placeholder="Password"
             />
 
-        <Button onPress={() => {}} mode="contained" style={{marginTop:30, marginButtom:10}}>Register Now!</Button>
+        
+    
+        <Button onPress = {handleSignUp} mode="contained" style={{marginTop:30, marginBottom:10}}>Register Now!</Button>
         <View style ={{flexDirection:'row',alignItems:'center', justifyContent:'space-around'}}>
             <Text>Already Registered ?</Text>
             <Button onPress ={() => props.navigation.navigate('Login')}>Login</Button>
